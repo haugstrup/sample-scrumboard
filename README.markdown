@@ -5,6 +5,8 @@ This allows all team members to stay on the same page even if they are not in th
 
 When you open the scrumboard you will see a quick overview of all the features to be implemented. A bullet graph shows the current progress and you can glance at how many cards are done. Clicking on a feature shows a traditional scrumboard for that feature. You can use drag and drop to move story cards from state to state and work progresses and any changes will of course be reflected on Podio. You can even attach responsible developers so you can see on the scrumboard who is responsible for a story card.
 
+This PHP app was built using the [Limonade](http://www.limonade-php.net/) micro-framework and the [Podio PHP client](https://github.com/podio/podio-php).
+
 # Creating your Podio apps
 You will need three apps to run the scrumboard: Sprints (sets the daterange for a sprint), Stories (for each feature to be implemented) and Story Items (for each task inside a feature). You can name the apps and fields anything, but they should contain the following fields as a minimum:
 
