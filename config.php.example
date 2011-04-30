@@ -1,0 +1,26 @@
+<?php
+
+define('CLIENT', '/path/to/podio-php/PodioAPI.php');
+define('API_SERVER', 'https://api.podio.com:443');
+define('CLIENT_ID', '');
+define('CLIENT_SECRET', '');
+define('USERNAME', '');
+define('PASSWORD', '');
+
+define('SPRINT_APP_ID', null);
+define('SPRINT_STATE_ID', null);
+
+define('STORY_APP_ID', null);
+define('STORY_SPRINT_ID', null);
+define('STORY_OWNER', null);
+
+define('ITEM_TITLE_ID', null);
+define('ITEM_APP_ID', null);
+define('ITEM_STORY_ID', null);
+define('ITEM_STATE_ID', null);
+define('ITEM_ESTIMATE_ID', null);
+define('ITEM_TIMELEFT_ID', null);
+define('ITEM_RESPONSIBLE_ID', null);
+
+define('STATE_DEV_DONE', 'Dev done');
+define('STATE_NOT_STARTED', 'Not started');
