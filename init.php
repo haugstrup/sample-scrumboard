@@ -7,22 +7,10 @@ session_start();
 $oauth = PodioOAuth::instance();
 $baseAPI = PodioBaseAPI::instance(API_SERVER, CLIENT_ID, CLIENT_SECRET);
 
-// Obtain access token and init API class
-if (!isset($_SESSION['access_token'])) {
-  $oauth->getAccessToken('password', array('username' => USERNAME, 'password' => PASSWORD));
-
-  $api = new PodioAPI();
-  $_SESSION['access_token'] = $oauth->access_token;
-  $_SESSION['refresh_token'] = $oauth->refresh_token;
-  
-  // Figure out which space we're on so we can build links to items
-  $_SESSION['story_app'] = $api->app->get(STORY_APP_ID);
-  $_SESSION['space'] = $api->space->get($_SESSION['story_app']['space_id']);
-}
-else {
+// If there's an access token in the session, make podio-php use it
+if (!empty($_SESSION['access_token'])) {
   $oauth->access_token = $_SESSION['access_token'];
   $oauth->refresh_token = $_SESSION['refresh_token'];
-
-  $api = new PodioAPI();
 }
+$api = new PodioAPI();
 
