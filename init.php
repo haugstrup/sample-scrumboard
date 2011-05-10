@@ -5,7 +5,7 @@ session_start();
 
 // Setup API client and get access token
 $oauth = PodioOAuth::instance();
-$baseAPI = PodioBaseAPI::instance(API_SERVER, CLIENT_ID, CLIENT_SECRET);
+$baseAPI = PodioBaseAPI::instance(CLIENT_ID, CLIENT_SECRET);
 
 // Obtain access token and init API class
 if (!isset($_SESSION['access_token'])) {

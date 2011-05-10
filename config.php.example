@@ -1,7 +1,6 @@
 <?php
 
 define('CLIENT', '/path/to/podio-php/PodioAPI.php');
-define('API_SERVER', 'https://api.podio.com:443');
 define('CLIENT_ID', '');
 define('CLIENT_SECRET', '');
 define('USERNAME', '');
