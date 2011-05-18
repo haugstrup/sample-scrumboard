@@ -5,7 +5,7 @@ session_start();
 
 // Setup API client and get access token
 $oauth = PodioOAuth::instance();
-$baseAPI = PodioBaseAPI::instance(CLIENT_ID, CLIENT_SECRET, API_SERVER);
+$baseAPI = PodioBaseAPI::instance(CLIENT_ID, CLIENT_SECRET);
 
 // If there's an access token in the session, make podio-php use it
 if (!empty($_SESSION['access_token'])) {
