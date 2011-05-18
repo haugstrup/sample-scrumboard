@@ -1,10 +1,10 @@
 <?php
 
 define('CLIENT', '/path/to/podio-php/PodioAPI.php');
-define('OAUTH_ENDPOINT', 'https://podio.com/oauth/authorize');
-define('API_SERVER', 'https://api.podio.com:443');
 define('CLIENT_ID', '');
 define('CLIENT_SECRET', '');
+define('USERNAME', '');
+define('PASSWORD', '');
 
 define('SPRINT_APP_ID', null);
 define('SPRINT_STATE_ID', null);
