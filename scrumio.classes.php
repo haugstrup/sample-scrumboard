@@ -8,6 +8,7 @@ class ScrumioItem {
   public $time_left;
   public $responsible;
   public $state;
+  public $story_id;
   
   public function __construct($item) {
     global $api;
@@ -16,6 +17,9 @@ class ScrumioItem {
     $this->title = $item['title'];
     
     foreach ($item['fields'] as $field) {
+      if ($field['field_id'] == ITEM_STORY_ID) {
+        $this->story_id = $field['values'][0]['value']['item_id'];
+      }
       if ($field['field_id'] == ITEM_STATE_ID) {
         $this->state = $field['values'][0]['value'];
       }
@@ -54,7 +58,7 @@ class ScrumioStory {
   public $remaining_days;
   public $items;
   
-  public function __construct($item, $states, $total_days, $remaining_days) {
+  public function __construct($item, $items, $estimate, $time_left, $states, $total_days, $remaining_days) {
     global $api;
     // Set Story properties
     $this->item_id = $item['item_id'];
@@ -67,11 +71,9 @@ class ScrumioStory {
     }
     
     // Get all items for this story
-    $filters = array(array('key' => ITEM_STORY_ID, 'values' => array($item['item_id'])));
-    $raw = $api->item->getItems(ITEM_APP_ID, 200, 0, 'title', 0, $filters);
-    foreach ($raw['items'] as $item) {
-      $this->items[] = new ScrumioItem($item);
-    }
+    $this->items = $items;
+    $this->estimate = $estimate;
+    $this->time_left = $time_left;
     
     $this->states = $states;
     $this->total_days = $total_days;
@@ -93,39 +95,11 @@ class ScrumioStory {
   }
   
   public function get_time_left() {
-    global $api;
-    static $list;
-    if (!isset($list[$this->item_id])) {
-      // Setup filter
-      $filters = array(array(
-        'key' => ITEM_STORY_ID,
-        'values' => array($this->item_id),
-      ));
-      // Make calculation
-      $aggregation = 'sum';
-      $formula = array(array('type' => 'field', 'value' => ITEM_TIMELEFT_ID));
-      $calculation = $api->item->calculate(ITEM_APP_ID, $aggregation, $filters, $formula);
-      $list[$this->item_id] = $calculation['total'] ? $calculation['total'] : '0';
-    }
-    return $list[$this->item_id];
+    return $this->time_left;
   }
   
   public function get_estimate() {
-    global $api;
-    static $list;
-    if (!isset($list[$this->item_id])) {
-      // Setup filter
-      $filters = array(array(
-        'key' => ITEM_STORY_ID,
-        'values' => array($this->item_id),
-      ));
-      // Make calculation
-      $aggregation = 'sum';
-      $formula = array(array('type' => 'field', 'value' => ITEM_ESTIMATE_ID));
-      $calculation = $api->item->calculate(ITEM_APP_ID, $aggregation, $filters, $formula);
-      $list[$this->item_id] = $calculation['total'] ? $calculation['total'] : '0';
-    }
-    return $list[$this->item_id];
+    return $this->estimate;
   }
   
   public function get_on_target_value() {
@@ -194,8 +168,33 @@ class ScrumioSprint {
     // Get all stories in this sprint
     $filters = array(array('key' => STORY_SPRINT_ID, 'values' => array($sprint_id)));
     $stories = $api->item->getItems(STORY_APP_ID, 200, 0, 'title', 0, $filters);
+    
+    // Grab all story items for all stories in one go
+    $stories_ids = array();
+    $stories_items = array();
+    $stories_estimates = array();
+    $stories_time_left = array();
     foreach ($stories['items'] as $story) {
-      $this->stories[] = new ScrumioStory($story, $this->states, $this->get_working_days(), $this->get_working_days_left());
+      $stories_ids[] = $story['item_id'];
+      $stories_items[$story['item_id']] = array();
+      $stories_estimates[$story['item_id']] = 0;
+      $stories_time_left[$story['item_id']] = 0;
+    }
+    $filters = array(array('key' => ITEM_STORY_ID, 'values' => $stories_ids));
+    $raw = $api->item->getItems(ITEM_APP_ID, 200, 0, 'title', 0, $filters);
+    foreach ($raw['items'] as $item) {
+      $item = new ScrumioItem($item);
+      $stories_items[$item->story_id][] = $item;
+      $stories_estimates[$item->story_id] = $stories_estimates[$item->story_id] + $item->estimate;
+      $stories_time_left[$item->story_id] = $stories_time_left[$item->story_id] + $item->time_left;
+    }
+
+    foreach ($stories['items'] as $story) {
+      $items = $stories_items[$story['item_id']];
+      $estimate = $stories_estimates[$story['item_id']] ? $stories_estimates[$story['item_id']] : '0';
+      $time_left = $stories_time_left[$story['item_id']] ? $stories_time_left[$story['item_id']] : '0';
+      
+      $this->stories[] = new ScrumioStory($story, $items, $estimate, $time_left, $this->states, $this->get_working_days(), $this->get_working_days_left());
     }
     
   }
