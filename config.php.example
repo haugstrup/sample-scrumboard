@@ -1,5 +1,6 @@
 <?php
 
+define('OAUTH_ENDPOINT', 'https://podio.com/oauth/authorize');
 define('CLIENT', '/path/to/podio-php/PodioAPI.php');
 define('CLIENT_ID', '');
 define('CLIENT_SECRET', '');
