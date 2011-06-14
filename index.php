@@ -58,8 +58,16 @@ dispatch_put('/item/:item_id', 'update_time_left');
     
     $data = array(array('value' => $state));
     $api->item->updateFieldValue($item_id, ITEM_STATE_ID, $data, 1);
-    if ($state == STATE_DEV_DONE) {
+    
+    // Set time_left to '0' when moving to one of the 'done' states
+    if (in_array($state, array(STATE_DEV_DONE, STATE_QA_DONE, STATE_PO_DONE))) {
       $api->item->updateFieldValue($item_id, ITEM_TIMELEFT_ID, array(array('value' => 0)), 1);
+    }
+    // Reset time left when moving to Not Started
+    elseif ($state == STATE_NOT_STARTED) {
+      $item = $api->item->getBasic($item_id);
+      $item = new ScrumioItem($item);
+      $api->item->updateFieldValue($item_id, ITEM_TIMELEFT_ID, array(array('value' => $item->estimate*60*60)), 1);
     }
     return txt('ok');
   }

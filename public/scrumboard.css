@@ -252,16 +252,28 @@ img {
   border-color:#448ccb;
   background: #c4def8;
 }
-
 .state-3 .story-item .story-item-details {
-  background:#9bd13c;
+  background:#999999;
 }
 .state-3 .story-item h3 {
-  background:#1d5413;
+  background:#333333;
   color:white;
 }
 .state-3 .story-item .responsible,
 .state-3 .story-item .duration {
+  border-color:#333333;
+  background: #eeeeee;
+}
+
+.state-4 .story-item .story-item-details {
+  background:#9bd13c;
+}
+.state-4 .story-item h3 {
+  background:#1d5413;
+  color:white;
+}
+.state-4 .story-item .responsible,
+.state-4 .story-item .duration {
   border-color:#678e21;
   background: #cbe8a5;
 }
@@ -340,6 +352,10 @@ img {
 
 #dashboard .stories > li ul.status li.dev-done {
     background: #006699;
+}
+
+#dashboard .stories > li ul.status li.qa-done {
+    background: #333333;
 }
 
 #dashboard .stories > li ul.status li.po-done {

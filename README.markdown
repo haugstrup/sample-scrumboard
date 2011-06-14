@@ -22,8 +22,8 @@ You will need three apps to run the scrumboard: Sprints (sets the daterange for 
 * App field: Set it to reference the story that each story item is a part of
 * Duration field: Use it to record the time estimate (in hours) for the story item. Used to generate bullet graphs of the current progress.
 * Duration field: Use it to record the time left (in hours) for the story item. Used to generate bullet graphs of the current progress.
-* State field: Create it with 4 allowed values ("Not started", "Dev started", "Dev done" and "PO done"). This controls which column the item is shown in on the scrumboard. You can create other states if these don't fit you. The scrumboard should adapt accordingly
-* Contact field: Set te responsible developer for each story item
+* State field: Create it with 4 allowed values ("Not started", "Dev started", "Dev done", "QA done" and "PO done"). This controls which column the item is shown in on the scrumboard. You can create other states if these don't fit you. The scrumboard should adapt accordingly
+* Contact field: Set the responsible developer for each story item
 
 # Setting up the scrumboard
 * Add some content to your apps
