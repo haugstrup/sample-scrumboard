@@ -11,10 +11,4 @@
     <div class="numbers">
     <?= $story->get_time_left(); ?> l / <?= $story->get_estimate(); ?> e / <?= count($story->items); ?> tasks
     </div>
-    <div class="graph">
-        <div class="box-wrap">
-            <div class="target" style="left: <?= $story->get_current_target_percent(); ?>%;"></div>
-            <div class="actual" style="width: <?= $story->get_current_percent(); ?>%;"></div>
-        </div>
-    </div>
   </li>
