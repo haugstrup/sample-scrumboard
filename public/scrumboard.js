@@ -1,7 +1,8 @@
 (function (window, $, undefined) {
 
   function onInit() {
-    $('body').delegate('click', '#dashboard li a', onDashBoardStoryClick);
+    $('ul.status li').tipsy({gravity: 'e'});
+    $('.graph .target, .graph .actual').tipsy({gravity: 's'});
   }
 
   function onHeaderTitleClick(elmTarget,e) {
@@ -85,7 +86,7 @@
   }
 
   Podio.Event.bind(Podio.Event.Types.init, onInit);
-  Podio.Event.UI.bind('click', '#dashboard li a', onDashBoardStoryClick);
+  Podio.Event.UI.bind('click', '#dashboard ul.stories > li', onDashBoardStoryClick);
   Podio.Event.UI.bind('click', '.story-item .toggle', onItemToggle);
   Podio.Event.UI.bind('click', 'header', onHeaderTitleClick);
 

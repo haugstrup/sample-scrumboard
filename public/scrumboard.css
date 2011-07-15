@@ -24,6 +24,13 @@ ul,li {
   margin:0;
   padding:0;
 }
+a {
+  color:#069;
+  text-decoration:none;
+}
+a:hover {
+  text-decoration:underline;
+}
 
 #login-area {
   margin:20px;
@@ -283,97 +290,142 @@ img {
 }
 
 #dashboard {
-    padding: 30px;
+  overflow:hidden;
+  margin:20px auto;
+  width:960px;
+}
+
+#dashboard .stories {
+  width:630px;
+  float:left;
+}
+#dashboard #sidebar {
+  width:250px;
+  margin-right:80px;
+  float:left;
+}
+#dashboard #sidebar .sprint_status {
+  text-align:center;
+}
+#dashboard #sidebar .on_target_text {
+  color:#006611;
+  font-weight:bold;
+  font-size:42px;
+  line-height:42px;
+}
+#dashboard #sidebar .on_target_text.under {
+  color:#A0000A;
+}
+#dashboard #sidebar .total_hours {
+  margin-bottom:1em;
+}
+#dashboard #sidebar .total_graph,
+#dashboard #sidebar .total_graph .box-wrap {
+  width:100%;
+  border-radius:5px;
 }
 
 #dashboard .stories > li {
-    float: left;
-    width: 370px;
-    height: 175px;
-    margin-bottom: 20px;
-    margin-right: 20px;
+  width: 100%;
+  border-bottom: 1px solid #E7E7E7;
 
-    overflow: hidden;
-    padding: 30px 30px 30px 30px;
-    background: #c3dbef;
-    border: 1px solid #E7E7E7;
-    border-radius: 20px;
-    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05);
-    font-family: PT Sans, Arial, serif;
-    position: relative;
+  overflow: hidden;
+  cursor:pointer;
+  font-family: PT Sans, Arial, serif;
+  position: relative;
+}
+#dashboard .stories > li:hover .body {
+  background: #e0e0e0;
+}
+#dashboard .stories > li:hover .body .status-area {
+  background:transparent;
+}
+#dashboard .stories > li .body {
+  margin:5px 0;
+  overflow:hidden;
+  border-radius:4px;
 }
 
-#dashboard .stories > li a {
-    font-size: 35px;
-    text-decoration: none;
-    color: #000;
-    display: block;
-    line-height: 40px;
-    margin-bottom: 10px;
-    height:40px;
-    overflow:hidden;
-    text-overflow:ellipsis;
+#dashboard .stories > li .title {
+  font-size: 20px;
+  text-decoration: none;
+  color: #000;
+  line-height: 28px;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
-#dashboard .stories > li .numbers {
-  font-size:25px;
-  line-height:25px;
+#dashboard .stories > li .metadata {
+  font-size:12px;
+  line-height:16px;
 }
 
+#dashboard .stories > li .status-area {
+  height:50px;
+  float:left;
+  
+  border-radius:4px;
+  background:#e7e7e7;
+  margin-right:15px;
+}
+#dashboard .stories > li .status-area .status-text {
+  width:50px;
+  height:100%;
+  text-align:center;
+  float:left;
+}
+#dashboard .stories > li .status-area .status-text .number {
+  margin-top:4px;
+  font-size:24px;
+  line-height:28px;
+  font-weight:bold;
+
+  border-radius:4px;
+}
 #dashboard .stories > li ul.status {
-    position: absolute;
-    top: 130px;
+  height:100%;
+  width:7px;
+  float:left;
 }
-
 #dashboard .stories > li ul.status li {
-    height: 60px;
-    width: 60px;
-    float: left;
-    margin-right: 10px;
-    color: #fff;
-    padding: 5px;
-}
-
-#dashboard .stories > li ul li span {
-    font-size: 25px;
-    display: block;
-    text-align: right;
-    padding-top: 10px;
-    padding-bottom: 10px;
+  width: 100%;
+  display:block;
 }
 
 #dashboard .stories > li ul.status li.not-started {
-    background: #ff3300;
-    background: url(i/status_icons-devdone.png) no-repeat center bottom);
+  background: #ff3300;
 }
-
 #dashboard .stories > li ul.status li.dev-started {
-    background: #ff9933;
+  background: #ff9933;
 }
-
 #dashboard .stories > li ul.status li.dev-done {
-    background: #006699;
+  background: #006699;
 }
-
 #dashboard .stories > li ul.status li.qa-done {
-    background: #333333;
+  background: #333333;
 }
-
 #dashboard .stories > li ul.status li.po-done {
-    background: #339933;
+  background: #339933;
 }
 
+#dashboard .stories > li .metadata .testing {
+  background:#006699;
+  color:#fff;
+  padding:0 2px;
+}
+#dashboard .stories > li .metadata .po {
+  background: #333333;
+  color:#fff;
+  padding:0 2px;
+}
+#dashboard .stories > li .metadata .done {
+  background: #339933;
+  color:#fff;
+  padding:0 2px;
+}
 
 header {
     overflow: hidden;
-    margin-left: 30px;
-    margin-top: 30px;
-}
-
-header h2 {
-    font-size: 56px;
-    line-height: 48px;
-    color: #6C6C6C;
-    cursor: pointer;
+    margin-bottom:3em;
 }
 
 header h1 {
@@ -386,28 +438,19 @@ header h1 {
     margin-right: 10px;
 }
 
-#dashboard li .graph {
-    position: absolute;
-    bottom: 10px;
-    left:20px;
-    padding:10px;
-    background:#8ebbe1;
-    border:1px solid #448ccb;
-}
-
 .hidden {
-    display: none;
+  display: none;
 }
 
 .story-view {
-   overflow: hidden;
-   width: 100%;
-    height:100%;
-    margin-top: 30px;
+  overflow: hidden;
+  width: 100%;
+  height:100%;
+  margin-top: 30px;
 }
 
 .story-view .items {
-    height:100%;
+  height:100%;
 }
 div#container { position: relative; margin: 0 auto; padding: 0; text-align: left; top: 80px; width: 250px; }
 
@@ -431,8 +474,3 @@ div.actual { position: absolute; height: 8px; left: 0px; top: 6px; background-co
 div.actualMAX { position: absolute; height: 8px; left: 0px; top: 6px; background-color: #70a1d8; font-size: 0; z-index: 5; font-size: 0; }
 div.actualPART { position: absolute; height: 8px; left: 0px; top: 6px; background-color: #0a50a1; font-size: 0; z-index: 5; font-size: 0; }
 
-.total_graph {
-    position: absolute;
-    top: 55px;
-    left: 300px;
-}

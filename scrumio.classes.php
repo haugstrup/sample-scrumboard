@@ -63,9 +63,10 @@ class ScrumioStory {
     // Set Story properties
     $this->item_id = $item['item_id'];
     $this->title = $item['title'];
+    $this->link = $item['link'];
     foreach ($item['fields'] as $field) {
       if ($field['field_id'] == STORY_OWNER) {
-        $this->owner = $field['values'][0]['value'];
+        $this->product_owner = $field['values'][0]['value'];
         break;
       }
     }
@@ -92,6 +93,24 @@ class ScrumioStory {
     }
     
     return $list;
+  }
+  
+  public function get_status_text() {
+    $states = $this->get_items_by_state();
+    $total = count($this->items);
+    $return = array();
+    
+    if (count($states['Dev done']) > 0 && $total == (count($states['Dev done'])+count($states['QA done'])+count($states['PO done']))) {
+      $return = array('short' => 'testing', 'long' => 'ready for testing!');
+    }
+    elseif (count($states['QA done']) > 0 && $total == (count($states['QA done'])+count($states['PO done']))) {
+      $return = array('short' => 'po', 'long' => 'ready for PO signoff!');
+    }
+    elseif (count($states['PO done']) > 0 && $total == count($states['PO done'])) {
+      $return = array('short' => 'done', 'long' => 'all finished!');
+    }
+    
+    return $return;
   }
   
   public function get_time_left() {
@@ -194,7 +213,9 @@ class ScrumioSprint {
       $estimate = $stories_estimates[$story['item_id']] ? $stories_estimates[$story['item_id']] : '0';
       $time_left = $stories_time_left[$story['item_id']] ? $stories_time_left[$story['item_id']] : '0';
       
-      $this->stories[] = new ScrumioStory($story, $items, $estimate, $time_left, $this->states, $this->get_working_days(), $this->get_working_days_left());
+      if (count($items) > 0) {
+        $this->stories[] = new ScrumioStory($story, $items, $estimate, $time_left, $this->states, $this->get_working_days(), $this->get_working_days_left());
+      }
     }
     
   }
@@ -255,6 +276,14 @@ class ScrumioSprint {
     $total = $this->get_estimate();
     $current = $total-$this->get_time_left();
     return $target/$total*100;
+  }
+
+  public function get_finished() {
+    return $this->get_estimate()-$this->get_time_left();
+  }
+
+  public function get_on_target_delta() {
+    return $this->get_finished()-$this->get_on_target_value();
   }
   
 }
