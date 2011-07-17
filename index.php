@@ -9,11 +9,33 @@ function configure() {
 }
 
 dispatch('/', 'scrumboard');
+dispatch('/show/:id', 'scrumboard');
   function scrumboard() {
+    global $api;
     // If we have an access token, show the scrumboard
     if (isset($_SESSION['access_token']) && $_SESSION['access_token'] && isset($_SESSION['story_app']) && $_SESSION['story_app']) {
-      $sprint = new ScrumioSprint();
-      return html('index.html.php', NULL, array('sprint' => $sprint));
+      
+      // Grab sprints and find current sprint
+      // $filters = array(array('key' => SPRINT_STATE_ID, 'values' => array('Active')));
+      $sprints = $api->item->getItems(SPRINT_APP_ID, 5, 0, 'created_on', 1);
+      foreach ($sprints['items'] as $item) {
+        if (params('id') == $item['item_id']) {
+          $current_sprint = $item;
+          break;
+        }
+        else {
+          foreach ($item['fields'] as $field) {
+            if ($field['field_id'] == SPRINT_STATE_ID) {
+              if ($field['values'][0]['value'] == 'Active') {
+                $current_sprint = $item;
+              }
+            }
+          }
+        }
+      }
+      
+      $sprint = new ScrumioSprint($current_sprint);
+      return html('index.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items']));
     }
     else {
       // No access token, show the "login" screen
@@ -57,7 +79,7 @@ dispatch_put('/item/:item_id', 'update_time_left');
     $state = $_POST['state'];
     
     $data = array(array('value' => $state));
-    $api->item->updateFieldValue($item_id, ITEM_STATE_ID, $data, 1);
+    $api->item->updateFieldValue($item_id, ITEM_STATE_ID, $data);
     
     // Set time_left to '0' when moving to one of the 'done' states
     if (in_array($state, array(STATE_DEV_DONE, STATE_QA_DONE, STATE_PO_DONE))) {
@@ -71,4 +93,14 @@ dispatch_put('/item/:item_id', 'update_time_left');
     }
     return txt('ok');
   }
+
+dispatch('/logout', 'logout');
+  function logout() {
+    unset($_SESSION['access_token']);
+    unset($_SESSION['refresh_token']);
+    unset($_SESSION['space']);
+    unset($_SESSION['story_app']);
+    redirect_to('');
+  }
+
 run();

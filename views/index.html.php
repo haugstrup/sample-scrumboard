@@ -9,6 +9,16 @@
     <link rel="shortcut icon" href="public/i/favicon.png"> 
   </head>
   <body>
+    <div id="navbar">
+      <a id="logout" href="<?= url_for('logout');?>">Log out</a>
+      <a href="#" id="switch-view">Switch view</a> | 
+      Sprints: 
+      <ul class="sprints">
+        <?php foreach ($sprints as $item) : ?>
+          <li class="<?= $sprint->item_id == $item['item_id'] ? 'selected' : '' ?>"><a href="<?= url_for('/show/'.$item['item_id']);?>"><?= $item['title']; ?></a></li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
     <div id="main">
       <div id="dashboard">
 
@@ -33,10 +43,18 @@
 
 
       </div>
-      <?php foreach ($sprint->stories as $story) : ?>
-        <?= render('_story.html.php', NULL, array('story' => $story)); ?>
-      <?php endforeach; ?>
-      
+      <div id="stories" class="story-view hidden">
+        <div class="header">
+          <?php foreach ($sprint->states as $state) : ?>
+            <?= '<h1><span>'.$state.'</span></h1>'; ?>
+          <?php endforeach; ?>
+        </div>
+        <div class="items">
+          <?php foreach ($sprint->stories as $story) : ?>
+            <?= render('_story.html.php', NULL, array('story' => $story)); ?>
+          <?php endforeach; ?>
+        </div>
+      </div>
     </div>
     <script type="text/javascript" charset="utf-8">
       var update_url_base = "<?= url_for('/item'); ?>";

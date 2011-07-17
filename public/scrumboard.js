@@ -11,11 +11,15 @@
   }
 
   function onDashBoardStoryClick(elmTarget, e) {
+    
+    // Single story click: switch to board view and scroll to story
+    onDashBoardToggleClick();
     var storyId = elmTarget.data('id');
-    $('#story-view-' + storyId).siblings().removeClass('current');
-    $('#story-view-' + storyId).addClass('current').show();
-    $('#dashboard').hide();
-    initSingleStoryView();
+    $('html,body').scrollTop($('#story-' + storyId).offset().top - 75);
+  }
+  function onDashBoardToggleClick(elmTarget, e) {
+    $('#dashboard, #stories').toggle();
+   initSingleStoryView();
   }
   
   function onItemToggle(elmTarget, e) {
@@ -27,7 +31,7 @@
     function resize_stories() {
       // Recalculate width according to browser width
       var total_width = $(window).width()-10;
-      var count = $('.story-view.current div.header h1').length;
+      var count = $('#stories div.header h1').length;
       var wrapper_width = Math.floor(total_width/count);
       var inner_width = wrapper_width-5;
       $('.story-group').width(total_width);
@@ -41,10 +45,6 @@
       resize_stories();
     });
 
-    $('.story-group').delegate('.story-add', 'click', function(){
-      $('#story-add-form').data('id', $(this).data('id')).modal();
-    });
-    
     $('.story-group').each(function(){
       var current_id = '#'+$(this).attr('id');
       $(current_id+' .story-item-state li').draggable({
@@ -84,10 +84,15 @@
       });
     });
   }
+  function onItemDblClick(elmTarget, e) {
+    window.open(elmTarget.parents('.story-item').data('url'));
+  }
 
   Podio.Event.bind(Podio.Event.Types.init, onInit);
   Podio.Event.UI.bind('click', '#dashboard ul.stories > li', onDashBoardStoryClick);
+  Podio.Event.UI.bind('click', '#switch-view', onDashBoardToggleClick);
   Podio.Event.UI.bind('click', '.story-item .toggle', onItemToggle);
+  Podio.Event.UI.bind('dblclick', '.story-item h3', onItemDblClick);
   Podio.Event.UI.bind('click', 'header', onHeaderTitleClick);
 
 })(window, jQuery);

@@ -6,8 +6,6 @@ body {
   background:white;
   padding:0;
   margin:0;
-  -webkit-user-select:none;
-  -moz-user-select:none;
 }
 
 html, body {
@@ -65,7 +63,8 @@ a:hover {
 }
 
 #story-view {
-  display:none;
+  -webkit-user-select:none;
+  -moz-user-select:none;
 }
 .header,
 .story-group {
@@ -77,11 +76,6 @@ a:hover {
   margin:0 10px;
   padding:5px 0 10px 0;
   border-bottom:1px solid #ccc;
-  height: 100%;
-}
-
-.story-group ul {
-    height: 100%;
 }
 
 .header {
@@ -89,6 +83,10 @@ a:hover {
   -moz-box-shadow: 0px 1px 10px #888;
   margin-bottom:10px;
   background:#5092BD;
+  position:fixed;
+  top:24px;
+  left:0;
+  z-index:1000;
 }
 .header h1 {
   color:white;
@@ -102,9 +100,36 @@ img {
   -moz-border-radius:4px;
 }
 
-.state {
-    height: 100%;
+#navbar, #navbar a {
+  background:black;
+  color:#f1f1ef;
 }
+#navbar {
+  padding:5px 0;
+  width:100%;
+  position:fixed;
+  top:0;
+  left:right;
+  z-index:1000;
+}
+#navbar #switch-view {
+  margin:0 0 0 10px;
+}
+#navbar .sprints {
+  display:inline-block;
+}
+#navbar .sprints li {
+  display:inline;
+  margin:10px;
+}
+#navbar .sprints li.selected {
+  font-weight:bold;
+}
+#navbar #logout {
+  float:right;
+  margin-right:10px;
+}
+
 .story,
 .state,
 .header h1 {
@@ -285,13 +310,9 @@ img {
   background: #cbe8a5;
 }
 
-#main {
-    height: 100%;
-}
-
 #dashboard {
   overflow:hidden;
-  margin:20px auto;
+  margin:40px auto;
   width:960px;
 }
 
@@ -445,12 +466,11 @@ header h1 {
 .story-view {
   overflow: hidden;
   width: 100%;
-  height:100%;
-  margin-top: 30px;
+  margin-top: 24px;
 }
 
 .story-view .items {
-  height:100%;
+  margin-top:50px;
 }
 div#container { position: relative; margin: 0 auto; padding: 0; text-align: left; top: 80px; width: 250px; }
 

@@ -124,7 +124,8 @@ class ScrumioStory {
   public function get_on_target_value() {
     $estimate = $this->get_estimate();
     $hours_per_day = $estimate/$this->total_days;
-    return round($estimate-($this->remaining_days*$hours_per_day));
+    $target_value = round($estimate-($this->remaining_days*$hours_per_day));
+    return $target_value > $estimate ? $estimate : $target_value;
   }
   
   public function get_current_percent() {
@@ -155,7 +156,7 @@ class ScrumioSprint {
   public $remaining_days;
   public $stories;
   
-  public function __construct() {
+  public function __construct($sprint) {
     global $api;
     // Locate available states
     $items_app = $api->app->get(ITEM_APP_ID);
@@ -169,9 +170,9 @@ class ScrumioSprint {
       }
     }
     // Find active sprint
-    $filters = array(array('key' => SPRINT_STATE_ID, 'values' => array('Active')));
-    $sprints = $api->item->getItems(SPRINT_APP_ID, 1, 0, 'title', 0, $filters);
-    $sprint = $sprints['items'][0];
+    // $filters = array(array('key' => SPRINT_STATE_ID, 'values' => array('Active')));
+    // $sprints = $api->item->getItems(SPRINT_APP_ID, 1, 0, 'title', 0, $filters);
+    // $sprint = $sprints['items'][0];
     $sprint_id = $sprint['item_id'];
     
     // Set sprint properties
@@ -258,7 +259,9 @@ class ScrumioSprint {
       $total_days = $this->get_working_days();
       $remaining_days = $this->get_working_days_left();
       $hours_per_day = $estimate/$total_days;
-      $list[$this->item_id] = round($estimate-($remaining_days*$hours_per_day));
+      $target_value = round($estimate-($remaining_days*$hours_per_day));
+      $list[$this->item_id] = $target_value > $estimate ? $estimate : $target_value;
+      
     }
     return $list[$this->item_id];
   }
