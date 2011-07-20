@@ -180,8 +180,8 @@ class ScrumioSprint {
     $this->title = $sprint['title'];
     foreach ($sprint['fields'] as $field) {
       if ($field['type'] == 'date') {
-        $this->start_date = date_create($field['values'][0]['start']);
-        $this->end_date = date_create($field['values'][0]['end']);
+        $this->start_date = date_create($field['values'][0]['start'], timezone_open('UTC'));
+        $this->end_date = date_create($field['values'][0]['end'], timezone_open('UTC'));
       }
     }
 
@@ -226,8 +226,10 @@ class ScrumioSprint {
   }
   
   public function get_working_days_left() {
-    $start_date = date_create();
-    return getWorkingDays(date_format($start_date, 'Y-m-d'), date_format($this->end_date, 'Y-m-d'));
+    $start_date = date_create('now', timezone_open('UTC'));
+    
+    // We substract 1 here to be able to 'chase the target' rather than 'working ahead'
+    return getWorkingDays(date_format($start_date, 'Y-m-d'), date_format($this->end_date, 'Y-m-d'))-1;
   }
   
   public function get_time_left() {
@@ -301,8 +303,8 @@ function getWorkingDays($startDate,$endDate,$holidays = array()){
   $no_remaining_days = fmod($days, 7);
 
   //It will return 1 if it's Monday,.. ,7 for Sunday
-  $the_first_day_of_week = date("N",strtotime($startDate));
-  $the_last_day_of_week = date("N",strtotime($endDate));
+  $the_first_day_of_week = gmdate("N",strtotime($startDate));
+  $the_last_day_of_week = gmdate("N",strtotime($endDate));
 
   //---->The two can be equal in leap years when february has 29 days, the equal sign is added here
   //In the first case the whole interval is within a week, in the second case the interval falls in two weeks.
@@ -329,7 +331,7 @@ function getWorkingDays($startDate,$endDate,$holidays = array()){
   foreach($holidays as $holiday){
     $time_stamp=strtotime($holiday);
     //If the holiday doesn't fall in weekend
-    if (strtotime($startDate) <= $time_stamp && $time_stamp <= strtotime($endDate) && date("N",$time_stamp) != 6 && date("N",$time_stamp) != 7)
+    if (strtotime($startDate) <= $time_stamp && $time_stamp <= strtotime($endDate) && gmdate("N",$time_stamp) != 6 && gmdate("N",$time_stamp) != 7)
       $workingDays--;
   }
 
