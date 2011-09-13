@@ -81,6 +81,16 @@ class ScrumioStory {
     $this->remaining_days = $remaining_days;
   }
   
+  public function get_responsible() {
+    $list = array();
+    foreach ($this->items as $item) {
+      if ($item->responsible) {
+        $list[$item->responsible['user_id']] = $item->responsible;
+      }
+    }
+    return $list;
+  }
+  
   public function get_items_by_state() {
     $list = array();
     foreach ($this->states as $state) {

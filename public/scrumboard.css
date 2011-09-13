@@ -145,8 +145,12 @@ img {
 .story-group .owner {
   margin-bottom:5px;
 }
+.story-group .owner .responsible {
+  margin-left:15px;
+}
 .story-group .owner img {
   vertical-align:top;
+  margin-left:5px;
 }
 .story-group h2 {
   font-size:16px;
