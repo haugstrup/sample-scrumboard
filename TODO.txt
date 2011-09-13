@@ -1,0 +1,19 @@
+Sidebar on dashboard:
+  start date
+  end date
+  days left
+  burn rate (original one based on estimates)
+  show what people are currently working on
+  create new task on story
+  set one developer as responsible for all tasks on story
+
+Scrumboard
+  nicer design
+  more solid drag-and-drop
+  don't expand, show all data always
+  edit task (responsible, time left)
+  create new task on story
+  Show list of developers along with the product owner
+
+Overall
+  sort of keep track of state. Mark dashboard/scrumboard as 'dirty' if changes has been made and reload automatically when switching views
