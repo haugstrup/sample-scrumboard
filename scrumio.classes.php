@@ -278,6 +278,17 @@ class ScrumioSprint {
     return $list[$this->item_id];
   }
   
+  public function get_planned_daily_burn() {
+    static $list;
+    if (!isset($list[$this->item_id])) {
+      $estimate = $this->get_estimate();
+      $total_days = $this->get_working_days();
+      $hours_per_day = $estimate/$total_days;
+      $list[$this->item_id] = round($hours_per_day, 2);
+    }
+    return $list[$this->item_id];
+  }
+
   public function get_current_percent() {
     $target = $this->get_on_target_value();
     $total = $this->get_estimate();

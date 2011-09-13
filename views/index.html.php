@@ -25,7 +25,7 @@
         <div id="sidebar">
           <div class="sprint_status">
             <div class="on_target_text <?= $sprint->get_on_target_delta() >= 0 ? 'over' : 'under' ?>"><?= $sprint->get_on_target_delta() >= 0 ? '+'.$sprint->get_on_target_delta() : $sprint->get_on_target_delta() ?> hrs</div>
-            <div class="total_hours"><?= $sprint->get_time_left();?> hours left, <?= $sprint->get_estimate();?> total hours</div>
+            <div class="total_hours"><?= $sprint->get_time_left();?> hours left, <?= $sprint->get_estimate();?> total hours<br><?= $sprint->get_working_days_left(); ?> days left, <?= $sprint->get_planned_daily_burn(); ?> hrs/day burn</div>
           </div>
           <div class="graph total_graph">
             <div class="box-wrap">
