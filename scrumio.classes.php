@@ -15,6 +15,7 @@ class ScrumioItem {
     // Set Item properties
     $this->item_id = $item['item_id'];
     $this->title = $item['title'];
+    $this->link = $item['link'];
     
     foreach ($item['fields'] as $field) {
       if ($field['field_id'] == ITEM_STORY_ID) {

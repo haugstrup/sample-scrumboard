@@ -2,6 +2,7 @@
 require_once 'vendor/limonade.php';
 require_once 'scrumio.classes.php';
 require_once 'init.php';
+require_once 'helpers.php';
 
 function configure() {
   option('OAUTH_REDIRECT_URI', 'http://'.$_SERVER['HTTP_HOST'].url_for('authorize'));

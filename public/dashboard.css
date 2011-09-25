@@ -1,0 +1,194 @@
+header {
+  overflow: hidden;
+  margin-bottom:3em;
+}
+header h1 {
+  background: url("i/scrumio_logo-250.png") no-repeat 0 0px;
+  overflow: hidden;
+  width: 250px;
+  height: 85px;
+  text-indent: -5000px;
+  float: left;
+  margin-right: 10px;
+}
+#login-area {
+  margin:20px;
+  font-size:13px;
+  font-family: PT Sans, Arial, serif;
+  width:300px;
+}
+#login-area a {
+  display:block;
+  background:#e86900;
+  color:white;
+  padding:10px 2px;
+  margin-right:4px;
+  border-radius:5px;
+  -moz-border-radius:5px;
+  width:300px;
+  text-decoration:none;
+  text-align:center;
+  font-weight:bold;
+  font-size:18px;
+}
+#login-area a:hover {
+  text-decoration:underline;
+}
+#login-area .error {
+  font-weight:bold;
+}
+
+#dashboard {
+  overflow:hidden;
+  margin:40px auto;
+  width:960px;
+}
+
+#dashboard .stories {
+  width:630px;
+  float:left;
+}
+#dashboard #sidebar {
+  width:250px;
+  margin-right:80px;
+  float:left;
+}
+#dashboard #sidebar .sprint_status {
+  text-align:center;
+}
+#dashboard #sidebar .on_target_text {
+  color:#006611;
+  font-weight:bold;
+  font-size:42px;
+  line-height:42px;
+}
+#dashboard #sidebar .on_target_text.under {
+  color:#A0000A;
+}
+#dashboard #sidebar .total_hours {
+  margin-bottom:1em;
+}
+#dashboard #sidebar .total_graph,
+#dashboard #sidebar .total_graph .box-wrap {
+  width:100%;
+  border-radius:5px;
+}
+
+#dashboard .stories > li {
+  width: 100%;
+  border-bottom: 1px solid #E7E7E7;
+
+  overflow: hidden;
+  cursor:pointer;
+  font-family: PT Sans, Arial, serif;
+  position: relative;
+}
+#dashboard .stories > li:hover .body {
+  background: #e0e0e0;
+}
+#dashboard .stories > li:hover .body .status-area {
+  background:transparent;
+}
+#dashboard .stories > li .body {
+  margin:5px 0;
+  overflow:hidden;
+  border-radius:4px;
+}
+
+#dashboard .stories > li .title {
+  font-size: 20px;
+  text-decoration: none;
+  color: #000;
+  line-height: 28px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+#dashboard .stories > li .metadata {
+  font-size:12px;
+  line-height:16px;
+}
+
+#dashboard .stories > li .status-area {
+  height:50px;
+  float:left;
+  
+  border-radius:4px;
+  background:#e7e7e7;
+  margin-right:15px;
+}
+#dashboard .stories > li .status-area .status-text {
+  width:50px;
+  height:100%;
+  text-align:center;
+  float:left;
+}
+#dashboard .stories > li .status-area .status-text .number {
+  margin-top:4px;
+  font-size:24px;
+  line-height:28px;
+  font-weight:bold;
+
+  border-radius:4px;
+}
+#dashboard .stories > li ul.status {
+  height:100%;
+  width:7px;
+  float:left;
+}
+#dashboard .stories > li ul.status li {
+  width: 100%;
+  display:block;
+}
+
+#dashboard .stories > li ul.status li.not-started {
+  background: #ff3300;
+}
+#dashboard .stories > li ul.status li.dev-started {
+  background: #ff9933;
+}
+#dashboard .stories > li ul.status li.dev-done {
+  background: #006699;
+}
+#dashboard .stories > li ul.status li.qa-done {
+  background: #333333;
+}
+#dashboard .stories > li ul.status li.po-done {
+  background: #339933;
+}
+
+#dashboard .stories > li .metadata .testing {
+  background:#006699;
+  color:#fff;
+  padding:0 2px;
+}
+#dashboard .stories > li .metadata .po {
+  background: #333333;
+  color:#fff;
+  padding:0 2px;
+}
+#dashboard .stories > li .metadata .done {
+  background: #339933;
+  color:#fff;
+  padding:0 2px;
+}
+
+/*	BULLET GRAPH */
+div.box-wrap { position: relative; width: 370px; height: 21px; top: 0; left: 0; margin: 0; padding: 0; background: #bad6ec; }
+
+/*	CHANGE THE WIDTH AND BACKGROUND COLORS AS NEEDED */
+div.box1 { position: absolute; height: 20px; width: 30%; left: 0; background-color: #eeeeee; z-index: 1; font-size: 0; }
+div.box2 { position: absolute; height: 20px; width: 30%; left: 30%; background-color: #dddddd; z-index: 1; font-size: 0; }
+div.box3 { position: absolute; height: 20px; width: 30%; left: 60%; background-color: #bbbbbb; z-index: 1; font-size: 0; }
+div.box4 { position: absolute; height: 20px; width: 10%; left: 90%; background-color: #bbbbbb; z-index: 1; font-size: 0; }
+
+
+/* RED LINE */
+div.target { position: absolute; height: 21px; width: 4px; left: 32px; top: 0; background-color: #fff; z-index: 7; font-size: 0; }
+
+/* ONE SEGMENT ONLY */
+div.actual { position: absolute; height: 8px; left: 0px; top: 6px; background-color: #fff; font-size: 0; z-index: 5; font-size: 0; }
+
+/* TWO SEGMENTS */
+div.actualMAX { position: absolute; height: 8px; left: 0px; top: 6px; background-color: #70a1d8; font-size: 0; z-index: 5; font-size: 0; }
+div.actualPART { position: absolute; height: 8px; left: 0px; top: 6px; background-color: #0a50a1; font-size: 0; z-index: 5; font-size: 0; }
+

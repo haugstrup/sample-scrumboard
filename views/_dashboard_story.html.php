@@ -18,11 +18,11 @@
         if ($status_text) {
           $links[] = '<span class="'.$status_text['short'].'">'.$status_text['long'].'</span>';
         }
-        $links[] = '<a href="'.$story->link.'">view in podio</a>';
-        if ($story->product_owner) {
-          $links[] = $story->product_owner['name'];
-        }
         $links[] = $story->get_estimate() .' hrs estimated';
+        $links[] = '<a href="'.$story->link.'">view in podio</a>';
+        // if ($story->product_owner) {
+        //   $links[] = $story->product_owner['name'];
+        // }
       ?>
       <?= implode(' | ', $links); ?>
     </div>

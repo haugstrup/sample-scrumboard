@@ -2,16 +2,17 @@
   <h2><?= $story->title ?></h2>
   <?php if ($story->product_owner) : ?>
     <div class="owner">
-      <b>Product owner:</b> 
-      <img src="https://download.podio.com/<?= $story->product_owner['avatar']; ?>/tiny" width="16" height="16">
-      <?= $story->product_owner['name']; ?>
+      <b>Responsible:</b> 
+      <img src="<?= avatar_url($story->product_owner['avatar']); ?>" width="16" height="16">
+      <?= $story->product_owner['name']; ?> (PO)
       <?php $responsible = $story->get_responsible(); ?>
       <?php if ($responsible): ?>
         <span class="responsible">
-          <b>Responsible:</b> 
           <?php foreach($responsible as $user): ?>
-            <img src="https://download.podio.com/<?= $user['avatar']; ?>/tiny" width="16" height="16">
-            <?= $user['name']; ?>
+            <?php if ($user['user_id'] != $story->product_owner['user_id']) : ?>
+              <img src="<?= avatar_url($user['avatar']); ?>" width="16" height="16">
+              <?= $user['name']; ?>
+            <?php endif; ?>
           <?php endforeach; ?>
         </span>
       <?php endif; ?>

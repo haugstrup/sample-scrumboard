@@ -1,19 +1,25 @@
 Sidebar on dashboard:
   start date
   end date
-  days left
-  burn rate (original one based on estimates)
   show what people are currently working on
   create new task on story
   set one developer as responsible for all tasks on story
 
 Scrumboard
   nicer design
-  more solid drag-and-drop
-  don't expand, show all data always
+  click to toggle visibility of responsible
   edit task (responsible, time left)
   create new task on story
-  Show list of developers along with the product owner
+  
+  after dragging: Reload card html with data from server (hrs left may have changed)
+  change border-bottom on h3 to match the card colour
+  'view notes' link on each card if it has notes
+  
+  show stories in a right hand column
 
 Overall
   sort of keep track of state. Mark dashboard/scrumboard as 'dirty' if changes has been made and reload automatically when switching views
+  
+Other
+  toggle to only show stories i'm involved in (PO or developer)
+  collapse stories and save setting in localstorage
