@@ -5,7 +5,7 @@
     <link href='https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold' rel='stylesheet' type='text/css'>       
     <link rel="stylesheet" href="public/base.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="public/dashboard.css" type="text/css" media="all" charset="utf-8">
-    <link rel="stylesheet" href="public/scrumboard.css" type="text/css" media="all" charset="utf-8">
+    <link rel="stylesheet" href="public/board.css" type="text/css" media="all" charset="utf-8">
   </head>
   <body>
     <div>
