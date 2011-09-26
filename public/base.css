@@ -48,7 +48,7 @@ img {
   position:fixed;
   top:0;
   left:right;
-  z-index:1000;
+  z-index:600;
 }
 #navbar #switch-view {
   margin:0 0 0 10px;

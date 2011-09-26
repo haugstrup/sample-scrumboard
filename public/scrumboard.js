@@ -5,14 +5,8 @@
     $('.graph .target, .graph .actual').tipsy({gravity: 's'});
     $('.tooltip').tipsy({gravity: 'n'});
   }
-
-  function onHeaderTitleClick(elmTarget,e) {
-    $('#dashboard').show();
-    $('.story-view').hide();
-  }
-
+  
   function onDashBoardStoryClick(elmTarget, e) {
-    
     // Single story click: switch to board view and scroll to story
     onDashBoardToggleClick();
     var storyId = elmTarget.data('id');
@@ -21,18 +15,20 @@
   function onDashBoardToggleClick(elmTarget, e) {
     $('#dashboard, #stories').toggle();
    initSingleStoryView();
+   $('html, body').scrollTop(0);
   }
   
   function initSingleStoryView() {
     function resize_stories() {
       // Recalculate width according to browser width
       var total_width = $(window).width()-10;
-      var count = $('#stories div.header h1').length;
-      var wrapper_width = Math.floor(total_width/count);
-      var inner_width = wrapper_width-5;
       $('.story-group').width(total_width);
-      $('.header h1').width(wrapper_width);
-      $('.story, .state,.header h1').width(inner_width);
+
+      total_width = total_width-200; // width of the story-header
+      var count = $('#stories').data('count');
+      var wrapper_width = Math.floor(total_width/count);
+      $('.story, .state,.header h1').width(wrapper_width);
+      
     }
 
     resize_stories();
@@ -73,11 +69,14 @@
             });
           }
         },
-        over: function() {
-          // $(this).css('background', '#65D6FD');
-        },
-        out: function() {
-          // $(this).css('background', '#eee');
+        over: function(event, ui) {
+          $(ui.helper)
+            .removeClass('dragging-0')
+            .removeClass('dragging-1')
+            .removeClass('dragging-2')
+            .removeClass('dragging-3')
+            .removeClass('dragging-4')
+            .addClass('dragging-'+$(this).attr('data-state-id'));
         }
       });
     });
@@ -86,6 +85,5 @@
   Podio.Event.bind(Podio.Event.Types.init, onInit);
   Podio.Event.UI.bind('click', '#dashboard ul.stories > li', onDashBoardStoryClick);
   Podio.Event.UI.bind('click', '#switch-view', onDashBoardToggleClick);
-  Podio.Event.UI.bind('click', 'header', onHeaderTitleClick);
 
 })(window, jQuery);

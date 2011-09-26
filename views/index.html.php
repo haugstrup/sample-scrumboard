@@ -45,10 +45,10 @@
 
 
       </div>
-      <div id="stories" class="story-view hidden">
+      <div id="stories" class="story-view hidden" data-count="<?= count($sprint->states); ?>">
         <div class="header">
           <?php foreach ($sprint->states as $state) : ?>
-            <?= '<h1><span>'.$state.'</span></h1>'; ?>
+            <?= '<h1>'.$state.'</h1>'; ?>
           <?php endforeach; ?>
         </div>
         <div class="items">
@@ -58,6 +58,7 @@
         </div>
       </div>
     </div>
+    <div id="overlay"></div>
     <script type="text/javascript" charset="utf-8">
       var update_url_base = "<?= url_for('/item'); ?>";
     </script>

@@ -6,8 +6,8 @@
   <div class="story-item-details">
     <?php if ($item->responsible) : ?>
       <div class="responsible">
-        <img src="<?= avatar_url($item->responsible['avatar']); ?>" width="16" height="16">
-        <?= substr($item->responsible['name'], 0, strpos($item->responsible['name'], ' ')); ?>
+        <?//= substr($item->responsible['name'], 0, strpos($item->responsible['name'], ' ')); ?>
+        <?= $item->responsible['name']; ?>
       </div>
     <?php endif; ?>
   </div>
