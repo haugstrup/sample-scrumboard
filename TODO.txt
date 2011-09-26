@@ -17,9 +17,3 @@ Overall
 Other
   toggle to only show stories i'm involved in (PO or developer)
   collapse stories and save setting in localstorage
-  
-  
-
-For tonight:
- - edit time left
- - collapse/expand stories and save setting in localstorage

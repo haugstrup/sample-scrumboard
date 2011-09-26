@@ -1,6 +1,6 @@
-<div class="story-group" id="story-<?= $story->item_id ?>">
+<div class="story-group" id="story-<?= $story->item_id ?>" data-id="<?= $story->item_id ?>">
   <div class="story-header">
-    <h2><?= $story->title ?></h2>
+    <h2><div class="toggle"></div><?= $story->title ?></h2>
     <?php if ($story->product_owner) : ?>
       <ul class="user-list">
         <li>

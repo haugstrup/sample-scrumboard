@@ -58,25 +58,25 @@ other bg: #cbe8a5
   background:#9bd13c;
 }
 
-.state-0 .story-item h3,
-#main .dragging-0 h3 {
-  border-bottom:1px solid #eed7d3;
+.state-0 .story-item .story-item-details,
+#main .dragging-0 .story-item-details {
+  border-top:1px solid #eed7d3;
 }
-.state-1 .story-item h3,
-#main .dragging-1 h3 {
-  border-bottom:1px solid #f8dfc8;
+.state-1 .story-item .story-item-details,
+#main .dragging-1 .story-item-details {
+  border-top:1px solid #f8dfc8;
 }
-.state-2 .story-item h3,
-#main .dragging-2 h3 {
-  border-bottom:1px solid #c4def8;
+.state-2 .story-item .story-item-details,
+#main .dragging-2 .story-item-details {
+  border-top:1px solid #c4def8;
 }
-.state-3 .story-item h3,
-#main .dragging-3 h3 {
-  border-bottom:1px solid #eeeeee;
+.state-3 .story-item .story-item-details,
+#main .dragging-3 .story-item-details {
+  border-top:1px solid #eeeeee;
 }
-.state-4 .story-item h3,
-#main .dragging-4 h3 {
-  border-bottom:1px solid #cbe8a5;
+.state-4 .story-item .story-item-details,
+#main .dragging-4 .story-item-details {
+  border-top:1px solid #cbe8a5;
 }
 
 /* Colors end */
@@ -103,7 +103,7 @@ other bg: #cbe8a5
   top:24px;
   left:0;
   z-index:10;
-  padding-left:210px;
+  padding-left:185px;
   
   background:#F1F1EF;
   
@@ -122,10 +122,10 @@ other bg: #cbe8a5
 .header h1,
 .story-header {
   float:left;
-  width:200px;
+  width:175px;
 }
 .user-list {
-  margin:1em 0.5em 0 0;
+  margin:0.5em 0.5em 0 0;
 }
 .user-list img {
   vertical-align:middle;
@@ -134,9 +134,31 @@ other bg: #cbe8a5
   line-height:20px;
 }
 .story-group h2 {
-  font-size:14px;
+  font-size:12px;
   line-height:150%;
   font-weight:bold;
+  padding-left:14px;
+  position:relative;
+  cursor:pointer;
+}
+.story-group h2 .toggle {
+  position:absolute;
+  top:5px;
+  left:0;
+  width:0px; 
+  height:0px; 
+  border-left:5px solid transparent;
+  border-right:5px solid transparent;
+  border-top:5px solid #555;
+  font-size:0px;
+  line-height:0px;
+}
+.story-group.collapsed h2 .toggle {
+  border-top:5px solid transparent;
+  border-bottom:5px solid transparent;
+  border-left:5px solid #555;
+  left:2px;
+  top:3px;
 }
 .story-item-state {
   min-height:62px;
@@ -177,7 +199,7 @@ other bg: #cbe8a5
   background:#ccc;
   color:#333;
   line-height:11px;
-  cursor:pointer;
+/*  cursor:pointer;*/
 }
 .story-item .spinner {
   position:absolute;

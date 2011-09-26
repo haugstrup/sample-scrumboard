@@ -24,7 +24,7 @@
       var total_width = $(window).width()-10;
       $('.story-group').width(total_width);
 
-      total_width = total_width-200; // width of the story-header
+      total_width = total_width-175; // width of the story-header
       var count = $('#stories').data('count');
       var wrapper_width = Math.floor(total_width/count);
       $('.story, .state,.header h1').width(wrapper_width);
@@ -80,10 +80,72 @@
         }
       });
     });
+    
+    var collapsedData = getCollapsedData().split(',');
+    if (typeof collapsedData === 'object') {
+      $.each(collapsedData, function(index, value){
+        if (typeof value === 'string') {
+          $('#story-'+value).addClass('collapsed').find('.user-list,.state').hide();
+        }
+      });
+    }
+  }
+  
+  function onScrumBoardToggleClick(elmTarget, e) {
+    var elmParent = elmTarget.parents('.story-group');
+    elmParent.find('.user-list, .state').toggle();
+    elmParent.toggleClass('collapsed');
+    if (elmParent.hasClass('collapsed')) {
+      addCollapsed(elmParent.attr('data-id'));
+    }
+    else {
+      removeCollapsed(elmParent.attr('data-id'));
+    }
+  }
+  
+  function getCollapsedData() {
+    var data = false;
+    if (typeof localStorage !== 'undefined' ) {
+      data = localStorage.getItem("collapsedList");
+    }
+    return data ? data : '';
+  }
+  function addCollapsed(id) {
+    if (typeof(localStorage) !== 'undefined' ) {
+      var data = getCollapsedData();
+      var return_value = '';
+      if (typeof data === 'string') {
+        data = data.split(',');
+        if ($.inArray(id, data) == -1) {
+          data.push(id);
+        }
+        return_value = data.join(',');
+      }
+      else {
+        return_value = id;
+      }
+      localStorage.setItem("collapsedList", return_value);
+    }
+  }
+  function removeCollapsed(id) {
+    if (typeof(localStorage) !== 'undefined' ) {
+      var data = getCollapsedData();
+      var return_value = '';
+      if (typeof data === 'string') {
+        data = data.split(',');
+        var idx = data.indexOf(id);
+        if (idx != -1) {
+          data.splice(idx, 1);
+        }
+        return_value = data.join(',');
+      }
+      localStorage.setItem("collapsedList", return_value);
+    }
   }
 
   Podio.Event.bind(Podio.Event.Types.init, onInit);
   Podio.Event.UI.bind('click', '#dashboard ul.stories > li', onDashBoardStoryClick);
   Podio.Event.UI.bind('click', '#switch-view', onDashBoardToggleClick);
+  Podio.Event.UI.bind('click', '.story-group h2', onScrumBoardToggleClick);
 
 })(window, jQuery);
