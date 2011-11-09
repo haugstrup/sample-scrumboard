@@ -160,11 +160,11 @@ other bg: #cbe8a5
   top:3px;
 }
 .story-item-state {
-  min-height:62px;
+  height:100%;
 }
 .story-item {
   cursor:move;
-  margin:5px 5px 10px 5px;
+  margin:0 5px 10px 5px;
   position:relative;
 }
 .story-item-details {

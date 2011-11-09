@@ -30,6 +30,18 @@
       $('.story, .state,.header h1').width(wrapper_width);
       
     }
+    
+    function set_story_height(current_id) {
+      var states = $(current_id).find('.state');
+      var max_height = 0;
+      states.each(function(){
+        var current_height = $(this).height();
+        if (current_height > max_height) {
+          max_height = current_height;
+        }
+      });
+      states.height(max_height);
+    }
 
     resize_stories();
     
@@ -46,6 +58,7 @@
         helper: "clone",
         cursor: "move",
         start: function(event, ui){
+          set_story_height(current_id);
           $(ui.helper).width($(ui.helper).parent().width());
         }
       });
