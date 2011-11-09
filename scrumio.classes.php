@@ -109,13 +109,13 @@ class ScrumioStory {
     $total = count($this->items);
     $return = array();
     
-    if (count($states['Dev done']) > 0 && $total == (count($states['Dev done'])+count($states['QA done'])+count($states['PO done']))) {
+    if (count($states[STATE_DEV_DONE]) > 0 && $total == (count($states[STATE_DEV_DONE])+count($states[STATE_QA_DONE])+count($states[STATE_PO_DONE]))) {
       $return = array('short' => 'testing', 'long' => 'ready for testing!');
     }
-    elseif (count($states['QA done']) > 0 && $total == (count($states['QA done'])+count($states['PO done']))) {
+    elseif (count($states[STATE_QA_DONE]) > 0 && $total == (count($states[STATE_QA_DONE])+count($states[STATE_PO_DONE]))) {
       $return = array('short' => 'po', 'long' => 'ready for PO signoff!');
     }
-    elseif (count($states['PO done']) > 0 && $total == count($states['PO done'])) {
+    elseif (count($states['PO done']) > 0 && $total == count($states[STATE_PO_DONE])) {
       $return = array('short' => 'done', 'long' => 'all finished!');
     }
     

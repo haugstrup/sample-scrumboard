@@ -20,7 +20,7 @@ define('ITEM_ESTIMATE_ID', null);
 define('ITEM_TIMELEFT_ID', null);
 define('ITEM_RESPONSIBLE_ID', null);
 
-define('STATE_DEV_DONE', 'Dev done');
+define('STATE_DEV_DONE', 'Development done');
 define('STATE_QA_DONE', 'QA done');
 define('STATE_PO_DONE', 'PO done');
 define('STATE_NOT_STARTED', 'Not started');
