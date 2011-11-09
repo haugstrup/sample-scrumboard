@@ -35,12 +35,18 @@
       var states = $(current_id).find('.state');
       var max_height = 0;
       states.each(function(){
-        var current_height = $(this).height();
+        var current_height = 0;
+        $(this).find('li').each(function(){
+          if (!$(this).attr('style')) {
+            current_height += $(this).outerHeight(true);
+          }
+        });
+        
         if (current_height > max_height) {
           max_height = current_height;
         }
       });
-      states.height(max_height);
+      states.find('ul').height(max_height);
     }
 
     resize_stories();
@@ -73,7 +79,8 @@
           if (state != old_state) {
             var item_id = $(ui.draggable).data('id');
             $(this).append(ui.draggable);
-            // $(this).css('background', '#eee');
+            
+            set_story_height('#'+$(this).parents('.story-group').attr('id'));
 
             // Make Ajax request to change state on Podio
             $(ui.draggable).append('<div class="spinner"></div>');
