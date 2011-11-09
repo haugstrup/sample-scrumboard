@@ -39,9 +39,7 @@ class ScrumioItem {
       if ($field['field_id'] == ITEM_RESPONSIBLE_ID) {
         $this->responsible = array();
         if ($field['values'][0]['value'] > 0) {
-          if ($field['values'][0]['value']['avatar']) {
-            $this->responsible = $field['values'][0]['value'];
-          }
+          $this->responsible = $field['values'][0]['value'];
         }
       }
     }
