@@ -1,3 +1,6 @@
+Dashboard
+  drag-and-drop sorting of stories
+
 Sidebar on dashboard:
   show what people are currently working on
   set one developer as responsible for all tasks on story
@@ -6,6 +9,7 @@ Scrumboard
   click to toggle visibility of responsible
   edit task (responsible, time left)
   create new task on story
+  link to story
   
   after dragging: Reload card html with data from server (hrs left may have changed)
   'view notes' link on each card if it has notes
