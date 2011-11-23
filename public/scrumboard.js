@@ -7,10 +7,13 @@
   }
   
   function onDashBoardStoryClick(elmTarget, e) {
-    // Single story click: switch to board view and scroll to story
-    onDashBoardToggleClick();
-    var storyId = elmTarget.data('id');
-    $('html,body').scrollTop($('#story-' + storyId).offset().top - 75);
+    if (!$(e.target).hasClass('external-link')) {
+      e.preventDefault();
+      // Single story click: switch to board view and scroll to story
+      onDashBoardToggleClick();
+      var storyId = elmTarget.data('id');
+      $('html,body').scrollTop($('#story-' + storyId).offset().top - 75);
+    }
   }
   function onDashBoardToggleClick(elmTarget, e) {
     $('#dashboard, #stories').toggle();
@@ -164,7 +167,7 @@
   }
 
   Podio.Event.bind(Podio.Event.Types.init, onInit);
-  Podio.Event.UI.bind('click', '#dashboard ul.stories > li', onDashBoardStoryClick);
+  Podio.Event.UI.bind('click', '#dashboard ul.stories > li', onDashBoardStoryClick, true);
   Podio.Event.UI.bind('click', '#switch-view', onDashBoardToggleClick);
   Podio.Event.UI.bind('click', '.story-group h2', onScrumBoardToggleClick);
 
