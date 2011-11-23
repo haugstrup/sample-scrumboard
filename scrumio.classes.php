@@ -196,7 +196,9 @@ class ScrumioSprint {
 
     // Get all stories in this sprint
     $filters = array(array('key' => STORY_SPRINT_ID, 'values' => array($sprint_id)));
-    $stories = $api->item->getItems(STORY_APP_ID, 200, 0, 'title', 0, $filters);
+    $sort_by = STORY_IMPORTANCE_ID ? STORY_IMPORTANCE_ID : 'title';
+    $sort_desc = STORY_IMPORTANCE_ID ? 1 : 0;
+    $stories = $api->item->getItems(STORY_APP_ID, 200, 0, $sort_by, $sort_desc, $filters);
     
     // Grab all story items for all stories in one go
     $stories_ids = array();

@@ -19,10 +19,7 @@
           $links[] = '<span class="'.$status_text['short'].'">'.$status_text['long'].'</span>';
         }
         $links[] = $story->get_estimate() .' hrs estimated';
-        $links[] = '<a href="'.$story->link.'">view in podio</a>';
-        // if ($story->product_owner) {
-        //   $links[] = $story->product_owner['name'];
-        // }
+        $links[] = '<a href="'.$story->link.'" class="external-link" target="_blank">view in podio</a>';
       ?>
       <?= implode(' | ', $links); ?>
     </div>

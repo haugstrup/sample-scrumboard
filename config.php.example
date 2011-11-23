@@ -11,6 +11,7 @@ define('SPRINT_STATE_ID', null);
 define('STORY_APP_ID', null);
 define('STORY_SPRINT_ID', null);
 define('STORY_OWNER', null);
+define('STORY_IMPORTANCE_ID', null);
 
 define('ITEM_TITLE_ID', null);
 define('ITEM_APP_ID', null);
