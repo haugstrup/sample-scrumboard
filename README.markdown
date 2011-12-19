@@ -8,24 +8,9 @@ When you open the scrumboard you will see a quick overview of all the features t
 This PHP app was built using the [Limonade](http://www.limonade-php.net/) micro-framework and the [Podio PHP client](https://github.com/podio/podio-php).
 
 # Creating your Podio apps
-You will need three apps to run the scrumboard: Sprints (sets the daterange for a sprint), Stories (for each feature to be implemented) and Story Items (for each task inside a feature). You can name the apps and fields anything, but they should contain the following fields as a minimum:
-
-## Sprints app
-* Date field: Use it to set a start and end time for each sprint
-* State field with two allowed values ("Active" and "Inactive"). Use it to mark the current active sprint
-
-## Stories app
-* App field: Set it to reference the sprint that the story is contained in
-* Contact field: Set it to mark who is the Product Owner for the story
-
-## Story Items app
-* App field: Set it to reference the story that each story item is a part of
-* Duration field: Use it to record the time estimate (in hours) for the story item. Used to generate bullet graphs of the current progress.
-* Duration field: Use it to record the time left (in hours) for the story item. Used to generate bullet graphs of the current progress.
-* State field: Create it with 4 allowed values ("Not started", "Dev started", "Dev done", "QA done" and "PO done"). This controls which column the item is shown in on the scrumboard. You can create other states if these don't fit you. The scrumboard should adapt accordingly
-* Contact field: Set the responsible developer for each story item
+You will need three apps to run the scrumboard: Sprints (sets the daterange for a sprint), Stories (for each feature to be implemented) and Story Items (for each task inside a feature). Grab the [Scrum Development Pack](https://podio.com/store/app/2267-scrum-development) from the Podio App Store to get started.
 
 # Setting up the scrumboard
 * Add some content to your apps
-* Copy config.php.example to config.php and add your credentials for Podio and add the appropriate IDs from your Podio apps. Nb. You can find field IDs by inspecting the data attributes when viewing the item create/edit form.
+* Copy config.php.example to config.php and add your credentials for Podio and add the appropriate IDs from your Podio apps. Nb. You can find field IDs by [getting the apps from the developer site](https://developers.podio.com/doc/applications/get-app-22349).
 * Run index.php in your browser
