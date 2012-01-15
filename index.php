@@ -18,7 +18,11 @@ dispatch('/show/:id', 'scrumboard');
       
       // Grab sprints and find current sprint
       // $filters = array(array('key' => SPRINT_STATE_ID, 'values' => array('Active')));
-      $sprints = $api->item->getItems(SPRINT_APP_ID, 5, 0, 'created_on', 1);
+      $sprints = $api->item->getItems(SPRINT_APP_ID, array(
+        'limit' => 5, 
+        'sort_by' => 'created_on', 
+        'sort_desc' => 1
+      ));
       foreach ($sprints['items'] as $item) {
         if (params('id') == $item['item_id']) {
           $current_sprint = $item;
@@ -46,16 +50,15 @@ dispatch('/show/:id', 'scrumboard');
 
 dispatch('/authorize', 'authorize');
   function authorize() {
-    global $oauth;
+    global $api;
     
     $story_app = NULL;
     
     // Successful authorization. Store the access token in the session
     if (!isset($_GET['error'])) {
-      $oauth->getAccessToken('authorization_code', array('code' => $_GET['code'], 'redirect_uri' => option('OAUTH_REDIRECT_URI')));
-      $api = new PodioAPI();
-      $_SESSION['access_token'] = $oauth->access_token;
-      $_SESSION['refresh_token'] = $oauth->refresh_token;
+      $api->authenticate('authorization_code', array('code' => $_GET['code'], 'redirect_uri' => option('OAUTH_REDIRECT_URI')));
+      $_SESSION['access_token'] = $api->oauth->access_token;
+      $_SESSION['refresh_token'] = $api->oauth->refresh_token;
       $story_app = $api->app->get(STORY_APP_ID);
     }
     

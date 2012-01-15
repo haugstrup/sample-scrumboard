@@ -179,9 +179,6 @@ class ScrumioSprint {
       }
     }
     // Find active sprint
-    // $filters = array(array('key' => SPRINT_STATE_ID, 'values' => array('Active')));
-    // $sprints = $api->item->getItems(SPRINT_APP_ID, 1, 0, 'title', 0, $filters);
-    // $sprint = $sprints['items'][0];
     $sprint_id = $sprint['item_id'];
     
     // Set sprint properties
@@ -195,10 +192,14 @@ class ScrumioSprint {
     }
 
     // Get all stories in this sprint
-    $filters = array(array('key' => STORY_SPRINT_ID, 'values' => array($sprint_id)));
     $sort_by = defined('STORY_IMPORTANCE_ID') && STORY_IMPORTANCE_ID ? STORY_IMPORTANCE_ID : 'title';
     $sort_desc = defined('STORY_IMPORTANCE_ID') && STORY_IMPORTANCE_ID ? 1 : 0;
-    $stories = $api->item->getItems(STORY_APP_ID, 200, 0, $sort_by, $sort_desc, $filters);
+    $stories = $api->item->getItems(STORY_APP_ID, array(
+      'limit' => 200,
+      'sort_by' => $sort_by,
+      'sort_desc' => $sort_desc,
+      STORY_SPRINT_ID => $sprint_id,
+    ));
     
     // Grab all story items for all stories in one go
     $stories_ids = array();
@@ -211,8 +212,11 @@ class ScrumioSprint {
       $stories_estimates[$story['item_id']] = 0;
       $stories_time_left[$story['item_id']] = 0;
     }
-    $filters = array(array('key' => ITEM_STORY_ID, 'values' => $stories_ids));
-    $raw = $api->item->getItems(ITEM_APP_ID, 200, 0, 'title', 0, $filters);
+    $raw = $api->item->getItems(ITEM_APP_ID, array(
+      'limit' => 200,
+      'sort_by' => 'title',
+      ITEM_STORY_ID => join(';', $stories_ids),
+    ));
     foreach ($raw['items'] as $item) {
       $item = new ScrumioItem($item);
       $stories_items[$item->story_id][] = $item;
