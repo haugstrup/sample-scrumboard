@@ -3,18 +3,18 @@
   <head>
     <title>ScrumIO | draggable, droppable, trackable scrum!</title>
     <!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"> -->
-    <link href='https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold' rel='stylesheet' type='text/css'>       
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="public/base.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="public/dashboard.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="public/board.css" type="text/css" media="all" charset="utf-8">
     <link rel="stylesheet" href="public/tipsy/stylesheets/tipsy.css" type="text/css" media="all" charset="utf-8">
-    <link rel="shortcut icon" href="public/i/favicon.png"> 
+    <link rel="shortcut icon" href="public/i/favicon.png">
   </head>
   <body>
     <div id="navbar">
       <a id="logout" href="<?= url_for('logout');?>">Log out</a>
-      <a href="#" id="switch-view">Switch view</a> | 
-      Sprints: 
+      <a href="#" id="switch-view">Switch view</a> |
+      Sprints:
       <ul class="sprints">
         <?php foreach ($sprints as $item) : ?>
           <li class="<?= $sprint->item_id == $item['item_id'] ? 'selected' : '' ?>"><a href="<?= url_for('/show/'.$item['item_id']);?>"><?= $item['title']; ?></a></li>
@@ -37,11 +37,18 @@
           </div>
         </div>
 
-        <ul class="stories">
-          <?php foreach ($sprint->stories as $story) : ?>
-            <?= render('_dashboard_story.html.php', NULL, array('story' => $story)); ?>
-          <?php endforeach; ?>
-        </ul>
+        <div class="stories-wrapper">
+          <?php if ($story_area_field = story_area_field($_SESSION['story_app'])) : ?>
+            <div class="filter">
+              Show only: <?= render('_filters.html.php', NULL, array('story_area_field' => $story_area_field)); ?>
+            </div>
+          <?php endif; ?>
+          <ul class="stories">
+            <?php foreach ($sprint->stories as $story) : ?>
+              <?= render('_dashboard_story.html.php', NULL, array('story' => $story)); ?>
+            <?php endforeach; ?>
+          </ul>
+        </div>
 
 
       </div>
@@ -62,7 +69,7 @@
     <script type="text/javascript" charset="utf-8">
       var update_url_base = "<?= url_for('/item'); ?>";
     </script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script> 
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.js"></script>
     <script src="public/tipsy/javascripts/jquery.tipsy.js" type="text/javascript" charset="utf-8"></script>
     <script src="public/lib/jquery.ui.touch.js" type="text/javascript" charset="utf-8"></script>

@@ -5,7 +5,46 @@
     $('.graph .target, .graph .actual').tipsy({gravity: 's'});
     $('.tooltip').tipsy({gravity: 'n'});
   }
-  
+
+  function onFilterClick(elmTarget, e) {
+    elmTarget.toggleClass('active');
+    var enabled = elmTarget.hasClass('active');
+    if (enabled) {
+      elmTarget.css('background-color', elmTarget.data('color'));
+    }
+    else {
+      elmTarget.css('background-color', 'transparent');
+    }
+    var currentFilter = [];
+    elmTarget.parent().find('li.active').each(function(){
+      currentFilter.push('area-'+$(this).data('id'));
+    });
+    if (currentFilter.length === 0) {
+      $('ul.stories > li').show();
+      $('#stories > .items > .story-group').show();
+    }
+    else {
+      $('ul.stories > li').each(function(){
+        var is_visible = false;
+        var currentStory = $(this);
+        $.each(currentFilter, function(index, value) {
+          console.log('testing '+value);
+          if (currentStory.hasClass(value)) {
+            is_visible = true;
+          }
+        });
+        if (is_visible) {
+          $(this).show();
+          $('#story-'+$(this).data('id')).show();
+        }
+        else {
+          $(this).hide();
+          $('#story-'+$(this).data('id')).hide();
+        }
+      });
+    }
+  }
+
   function onDashBoardStoryClick(elmTarget, e) {
     if (!$(e.target).hasClass('external-link')) {
       e.preventDefault();
@@ -20,7 +59,7 @@
    initSingleStoryView();
    $('html, body').scrollTop(0);
   }
-  
+
   function initSingleStoryView() {
     function resize_stories() {
       // Recalculate width according to browser width
@@ -31,9 +70,9 @@
       var count = $('#stories').data('count');
       var wrapper_width = Math.floor(total_width/count);
       $('.story, .state,.header h1').width(wrapper_width);
-      
+
     }
-    
+
     function set_story_height(current_id) {
       var states = $(current_id).find('.state');
       var max_height = 0;
@@ -44,7 +83,7 @@
             current_height += $(this).outerHeight(true);
           }
         });
-        
+
         if (current_height > max_height) {
           max_height = current_height;
         }
@@ -53,7 +92,7 @@
     }
 
     resize_stories();
-    
+
     $(window).resize(function(){
       resize_stories();
     });
@@ -75,14 +114,14 @@
       $(current_id+' .story-item-state').droppable({
         accept: current_id+' .story-item-state > li',
         activeClass: 'ui-state-highlight',
-        tolerance: 'pointer', 
+        tolerance: 'pointer',
         drop: function(event, ui) {
           var old_state = $(ui.draggable).parents('ul').data('state');
           var state = $(this).data('state');
           if (state != old_state) {
             var item_id = $(ui.draggable).data('id');
             $(this).append(ui.draggable);
-            
+
             set_story_height('#'+$(this).parents('.story-group').attr('id'));
 
             // Make Ajax request to change state on Podio
@@ -103,7 +142,7 @@
         }
       });
     });
-    
+
     var collapsedData = getCollapsedData().split(',');
     if (typeof collapsedData === 'object') {
       $.each(collapsedData, function(index, value){
@@ -113,7 +152,7 @@
       });
     }
   }
-  
+
   function onScrumBoardToggleClick(elmTarget, e) {
     var elmParent = elmTarget.parents('.story-group');
     elmParent.find('.user-list, .state').toggle();
@@ -125,7 +164,7 @@
       removeCollapsed(elmParent.attr('data-id'));
     }
   }
-  
+
   function getCollapsedData() {
     var data = false;
     if (typeof localStorage !== 'undefined' ) {
@@ -170,5 +209,6 @@
   Podio.Event.UI.bind('click', '#dashboard ul.stories > li', onDashBoardStoryClick, true);
   Podio.Event.UI.bind('click', '#switch-view', onDashBoardToggleClick);
   Podio.Event.UI.bind('click', '.story-group h2', onScrumBoardToggleClick);
+  Podio.Event.UI.bind('click', '.filter li', onFilterClick);
 
 })(window, jQuery);

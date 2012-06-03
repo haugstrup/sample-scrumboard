@@ -1,4 +1,4 @@
-<li data-id="<?= $story->item_id ?>">
+<li data-id="<?= $story->item_id ?>" class="<?= implode(' ', $story->get_areas_class_list()); ?>">
   <div class="body">
     <div class="status-area">
       <ul class="status">
@@ -14,14 +14,21 @@
     <div class="metadata">
       <?php
         $links = array();
-        $status_text = $story->get_status_text();
-        if ($status_text) {
-          $links[] = '<span class="'.$status_text['short'].'">'.$status_text['long'].'</span>';
+        // $status_text = $story->get_status_text();
+        // if ($status_text) {
+        //   $links[] = '<span class="'.$status_text['short'].'">'.$status_text['long'].'</span>';
+        // }
+        if ($story->areas) {
+          $areas = array();
+          foreach ($story->areas as $area) {
+            $areas[] = '<span class="area" style="background-color:#'.$area['color'].'">'.$area['text'].'</span>';
+          }
+          $links[] = implode('', $areas);
         }
-        $links[] = $story->get_estimate() .' hrs estimated';
+        $links[] = '<span class="estimate">' . $story->get_estimate() .' hrs estimated</span>';
         $links[] = '<a href="'.$story->link.'" class="external-link" target="_blank">view in podio</a>';
       ?>
-      <?= implode(' | ', $links); ?>
+      <?= implode('', $links); ?>
     </div>
   </div>
 </li>

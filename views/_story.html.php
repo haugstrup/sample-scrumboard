@@ -1,6 +1,10 @@
 <div class="story-group" id="story-<?= $story->item_id ?>" data-id="<?= $story->item_id ?>">
   <div class="story-header">
     <h2><div class="toggle"></div><?= $story->title ?></h2>
+    <?php foreach ($story->areas as $area): ?>
+      <span class="area" style="background-color:#<?= $area['color']; ?>"><?= $area['text']; ?></span>
+    <?php endforeach; ?>
+
     <?php if ($story->product_owner) : ?>
       <ul class="user-list">
         <li>

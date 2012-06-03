@@ -44,7 +44,7 @@ header h1 {
   width:960px;
 }
 
-#dashboard .stories {
+#dashboard .stories-wrapper {
   width:630px;
   float:left;
 }
@@ -111,7 +111,7 @@ header h1 {
 #dashboard .stories > li .status-area {
   height:50px;
   float:left;
-  
+
   border-radius:4px;
   background:#e7e7e7;
   margin-right:15px;
@@ -156,6 +156,24 @@ header h1 {
   background: #339933;
 }
 
+.area {
+  border-radius:4px;
+  padding:0 4px;
+}
+.story-group .area {
+  margin-left:13px;
+}
+#dashboard .stories > li .metadata .area {
+  margin-left:5px;
+}
+#dashboard .stories > li .metadata .area:first-child {
+  margin-left:0;
+}
+
+#dashboard .stories > li .metadata .estimate {
+  margin:0 10px;
+}
+
 #dashboard .stories > li .metadata .testing {
   background:#006699;
   color:#fff;
@@ -170,6 +188,24 @@ header h1 {
   background: #339933;
   color:#fff;
   padding:0 2px;
+}
+
+/* Filter list */
+.filter {
+}
+.filter ul {
+  display:inline-block;
+  margin-bottom:20px;
+}
+.filter ul li {
+  cursor:pointer;
+  display:inline-block;
+  border-radius:4px;
+  padding:0 4px;
+  margin:0 10px;
+}
+.filter ul li.active {
+  font-weight:bold;
 }
 
 /*	BULLET GRAPH */
