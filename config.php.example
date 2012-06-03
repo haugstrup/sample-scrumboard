@@ -25,3 +25,6 @@ define('STATE_DEV_DONE', 'Development done');
 define('STATE_QA_DONE', 'QA done');
 define('STATE_PO_DONE', 'PO done');
 define('STATE_NOT_STARTED', 'Not started');
+
+// Extras
+define('STORY_AREA_ID', null);
