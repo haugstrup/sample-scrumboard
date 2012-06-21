@@ -190,73 +190,77 @@ class ScrumioSprint {
 
   public function __construct($sprint) {
     global $api;
-    // Locate available states
-    $items_app = $api->app->get(ITEM_APP_ID);
-    $this->states = array();
-    if(is_array($items_app['fields'])) {
-      foreach ($items_app['fields'] as $field) {
-        if ($field['field_id'] == ITEM_STATE_ID) {
-          $this->states = $field['config']['settings']['allowed_values'];
-          break;
+    try {
+      // Locate available states
+      $items_app = $api->app->get(ITEM_APP_ID);
+      $this->states = array();
+      if(is_array($items_app['fields'])) {
+        foreach ($items_app['fields'] as $field) {
+          if ($field['field_id'] == ITEM_STATE_ID) {
+            $this->states = $field['config']['settings']['allowed_values'];
+            break;
+          }
+        }
+      }
+      // Find active sprint
+      $sprint_id = $sprint['item_id'];
+
+      // Set sprint properties
+      $this->item_id = $sprint['item_id'];
+      $this->title = $sprint['title'];
+      foreach ($sprint['fields'] as $field) {
+        if ($field['type'] == 'date') {
+          $this->start_date = date_create($field['values'][0]['start'], timezone_open('UTC'));
+          $this->end_date = date_create($field['values'][0]['end'], timezone_open('UTC'));
+        }
+      }
+
+      // Get all stories in this sprint
+      $sort_by = defined('STORY_IMPORTANCE_ID') && STORY_IMPORTANCE_ID ? STORY_IMPORTANCE_ID : 'title';
+      $sort_desc = defined('STORY_IMPORTANCE_ID') && STORY_IMPORTANCE_ID ? 1 : 0;
+      $stories = $api->item->getItems(STORY_APP_ID, array(
+        'limit' => 200,
+        'sort_by' => $sort_by,
+        'sort_desc' => $sort_desc,
+        STORY_SPRINT_ID => $sprint_id,
+      ));
+
+      // Grab all story items for all stories in one go
+      $stories_ids = array();
+      $stories_items = array();
+      $stories_estimates = array();
+      $stories_time_left = array();
+      foreach ($stories['items'] as $story) {
+        $stories_ids[] = $story['item_id'];
+        $stories_items[$story['item_id']] = array();
+        $stories_estimates[$story['item_id']] = 0;
+        $stories_time_left[$story['item_id']] = 0;
+      }
+      $raw = $api->item->getItems(ITEM_APP_ID, array(
+        'limit' => 200,
+        'sort_by' => 'title',
+        ITEM_STORY_ID => join(';', $stories_ids),
+      ));
+      foreach ($raw['items'] as $item) {
+        $item = new ScrumioItem($item);
+        $stories_items[$item->story_id][] = $item;
+        $stories_estimates[$item->story_id] = $stories_estimates[$item->story_id] + $item->estimate;
+        $stories_time_left[$item->story_id] = $stories_time_left[$item->story_id] + $item->time_left;
+      }
+
+      foreach ($stories['items'] as $story) {
+        $items = $stories_items[$story['item_id']];
+        $estimate = $stories_estimates[$story['item_id']] ? $stories_estimates[$story['item_id']] : '0';
+        $time_left = $stories_time_left[$story['item_id']] ? $stories_time_left[$story['item_id']] : '0';
+
+        if (count($items) > 0) {
+          $this->stories[] = new ScrumioStory($story, $items, $estimate, $time_left, $this->states, $this->get_working_days(), $this->get_working_days_left());
         }
       }
     }
-    // Find active sprint
-    $sprint_id = $sprint['item_id'];
-
-    // Set sprint properties
-    $this->item_id = $sprint['item_id'];
-    $this->title = $sprint['title'];
-    foreach ($sprint['fields'] as $field) {
-      if ($field['type'] == 'date') {
-        $this->start_date = date_create($field['values'][0]['start'], timezone_open('UTC'));
-        $this->end_date = date_create($field['values'][0]['end'], timezone_open('UTC'));
-      }
+    catch (PodioError $e) {
+      die("There was an error. The API responded with the error type <b>{$e->body['error']}</b> and the message <b>{$e->body['error_description']}</b><br><a href='".url_for('logout')."'>Log out</a>");
     }
-
-    // Get all stories in this sprint
-    $sort_by = defined('STORY_IMPORTANCE_ID') && STORY_IMPORTANCE_ID ? STORY_IMPORTANCE_ID : 'title';
-    $sort_desc = defined('STORY_IMPORTANCE_ID') && STORY_IMPORTANCE_ID ? 1 : 0;
-    $stories = $api->item->getItems(STORY_APP_ID, array(
-      'limit' => 200,
-      'sort_by' => $sort_by,
-      'sort_desc' => $sort_desc,
-      STORY_SPRINT_ID => $sprint_id,
-    ));
-
-    // Grab all story items for all stories in one go
-    $stories_ids = array();
-    $stories_items = array();
-    $stories_estimates = array();
-    $stories_time_left = array();
-    foreach ($stories['items'] as $story) {
-      $stories_ids[] = $story['item_id'];
-      $stories_items[$story['item_id']] = array();
-      $stories_estimates[$story['item_id']] = 0;
-      $stories_time_left[$story['item_id']] = 0;
-    }
-    $raw = $api->item->getItems(ITEM_APP_ID, array(
-      'limit' => 200,
-      'sort_by' => 'title',
-      ITEM_STORY_ID => join(';', $stories_ids),
-    ));
-    foreach ($raw['items'] as $item) {
-      $item = new ScrumioItem($item);
-      $stories_items[$item->story_id][] = $item;
-      $stories_estimates[$item->story_id] = $stories_estimates[$item->story_id] + $item->estimate;
-      $stories_time_left[$item->story_id] = $stories_time_left[$item->story_id] + $item->time_left;
-    }
-
-    foreach ($stories['items'] as $story) {
-      $items = $stories_items[$story['item_id']];
-      $estimate = $stories_estimates[$story['item_id']] ? $stories_estimates[$story['item_id']] : '0';
-      $time_left = $stories_time_left[$story['item_id']] ? $stories_time_left[$story['item_id']] : '0';
-
-      if (count($items) > 0) {
-        $this->stories[] = new ScrumioStory($story, $items, $estimate, $time_left, $this->states, $this->get_working_days(), $this->get_working_days_left());
-      }
-    }
-
   }
 
   public function get_working_days() {

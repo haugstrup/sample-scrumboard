@@ -15,12 +15,12 @@ dispatch('/show/:id', 'scrumboard');
     global $api;
     // If we have an access token, show the scrumboard
     if (isset($_SESSION['access_token']) && $_SESSION['access_token'] && isset($_SESSION['story_app']) && $_SESSION['story_app']) {
-      
+
       // Grab sprints and find current sprint
       // $filters = array(array('key' => SPRINT_STATE_ID, 'values' => array('Active')));
       $sprints = $api->item->getItems(SPRINT_APP_ID, array(
-        'limit' => 5, 
-        'sort_by' => 'created_on', 
+        'limit' => 5,
+        'sort_by' => 'created_on',
         'sort_desc' => 1
       ));
       foreach ($sprints['items'] as $item) {
@@ -38,7 +38,7 @@ dispatch('/show/:id', 'scrumboard');
           }
         }
       }
-      
+
       $sprint = new ScrumioSprint($current_sprint);
       return html('index.html.php', NULL, array('sprint' => $sprint, 'sprints' => $sprints['items']));
     }
@@ -51,17 +51,22 @@ dispatch('/show/:id', 'scrumboard');
 dispatch('/authorize', 'authorize');
   function authorize() {
     global $api;
-    
+
     $story_app = NULL;
-    
+
     // Successful authorization. Store the access token in the session
     if (!isset($_GET['error'])) {
-      $api->authenticate('authorization_code', array('code' => $_GET['code'], 'redirect_uri' => option('OAUTH_REDIRECT_URI')));
-      $_SESSION['access_token'] = $api->oauth->access_token;
-      $_SESSION['refresh_token'] = $api->oauth->refresh_token;
-      $story_app = $api->app->get(STORY_APP_ID);
+      try {
+        $api->authenticate('authorization_code', array('code' => $_GET['code'], 'redirect_uri' => option('OAUTH_REDIRECT_URI')));
+        $_SESSION['access_token'] = $api->oauth->access_token;
+        $_SESSION['refresh_token'] = $api->oauth->refresh_token;
+        $story_app = $api->app->get(STORY_APP_ID);
+      }
+      catch (PodioError $e) {
+        die("There was an error. The API responded with the error type <b>{$e->body['error']}</b> and the message <b>{$e->body['error_description']}</b><br><a href='".url_for('/')."'>Go back</a>");
+      }
     }
-    
+
     if ($story_app) {
       $_SESSION['story_app'] = $story_app;
       $_SESSION['space'] = $api->space->get($_SESSION['story_app']['space_id']);
@@ -76,15 +81,15 @@ dispatch('/authorize', 'authorize');
     }
   }
 
-dispatch_put('/item/:item_id', 'update_time_left'); 
+dispatch_put('/item/:item_id', 'update_time_left');
   function update_time_left() {
     global $api;
     $item_id = params('item_id');
     $state = $_POST['state'];
-    
+
     $data = array(array('value' => $state));
     $api->item->updateFieldValue($item_id, ITEM_STATE_ID, $data);
-    
+
     // Set time_left to '0' when moving to one of the 'done' states
     if (in_array($state, array(STATE_DEV_DONE, STATE_QA_DONE, STATE_PO_DONE))) {
       $api->item->updateFieldValue($item_id, ITEM_TIMELEFT_ID, array(array('value' => 0)), 1);
