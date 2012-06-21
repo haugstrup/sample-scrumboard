@@ -259,7 +259,7 @@ class ScrumioSprint {
       }
     }
     catch (PodioError $e) {
-      die("There was an error. The API responded with the error type <b>{$e->body['error']}</b> and the message <b>{$e->body['error_description']}</b><br><a href='".url_for('logout')."'>Log out</a>");
+      die("There was an error. The API responded with the error type <b>{$e->body['error']}</b> and the message <b>{$e->body['error_description']}</b>. The URL was <b>{$e->url}</b><br><a href='".url_for('logout')."'>Log out</a>");
     }
   }
 
