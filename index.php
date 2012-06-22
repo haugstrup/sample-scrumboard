@@ -18,11 +18,17 @@ dispatch('/show/:id', 'scrumboard');
 
       // Grab sprints and find current sprint
       // $filters = array(array('key' => SPRINT_STATE_ID, 'values' => array('Active')));
-      $sprints = $api->item->getItems(SPRINT_APP_ID, array(
-        'limit' => 5,
-        'sort_by' => 'created_on',
-        'sort_desc' => 1
-      ));
+      try {
+        $sprints = $api->item->getItems(SPRINT_APP_ID, array(
+          'limit' => 5,
+          'sort_by' => 'created_on',
+          'sort_desc' => 1
+        ));
+      }
+      catch (PodioError $e) {
+        die("There was an error. The API responded with the error type <b>{$e->body['error']}</b> and the message <b>{$e->body['error_description']}</b>. The URL was <b>{$e->url}</b><br><a href='".url_for('logout')."'>Log out</a>");
+      }
+
       foreach ($sprints['items'] as $item) {
         if (params('id') == $item['item_id']) {
           $current_sprint = $item;
