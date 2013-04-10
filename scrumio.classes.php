@@ -192,7 +192,7 @@ class ScrumioSprint {
     global $api;
     try {
       // Locate available states
-      $items_app = $api->app->get(ITEM_APP_ID);
+      $items_app = PodioApp::get(ITEM_APP_ID);
       $this->states = array();
       if(is_array($items_app['fields'])) {
         foreach ($items_app['fields'] as $field) {
@@ -218,7 +218,7 @@ class ScrumioSprint {
       // Get all stories in this sprint
       $sort_by = defined('STORY_IMPORTANCE_ID') && STORY_IMPORTANCE_ID ? STORY_IMPORTANCE_ID : 'title';
       $sort_desc = defined('STORY_IMPORTANCE_ID') && STORY_IMPORTANCE_ID ? 1 : 0;
-      $stories = $api->item->getItems(STORY_APP_ID, array(
+      $stories = PodioItem::filter(STORY_APP_ID, array(
         'limit' => 200,
         'sort_by' => $sort_by,
         'sort_desc' => $sort_desc,
@@ -236,7 +236,7 @@ class ScrumioSprint {
         $stories_estimates[$story['item_id']] = 0;
         $stories_time_left[$story['item_id']] = 0;
       }
-      $raw = $api->item->getItems(ITEM_APP_ID, array(
+      $raw = PodioItem::filter(ITEM_APP_ID, array(
         'limit' => 200,
         'sort_by' => 'title',
         ITEM_STORY_ID => join(';', $stories_ids),
