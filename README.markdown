@@ -1,3 +1,5 @@
+# THIS IS A VERY OLD PROJECT. It's not longer compatible with the current release of podio-php and will not work out of the box. I keep it here for historical reasons. It will not work unless you port the code to the current state of podio-php yourself.
+
 # Podio API Sample: Virtual Scrumboard
 This is a simple example of how you can build specialized visual interfaces on top of Podio. It creates a virtual scrumboard based on Podio. You control all your sprints inside Podio and use the virtual scrumboard to get an overview of the state for your current sprint.
 
