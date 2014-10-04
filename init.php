@@ -4,7 +4,7 @@ require_once(CLIENT);
 session_start();
 
 // Setup API client and get access token
-$api = Podio::instance(CLIENT_ID, CLIENT_SECRET);
+Podio::setup(CLIENT_ID, CLIENT_SECRET);
 
 // $api->debug = true;
 
